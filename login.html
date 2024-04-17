@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login</title>
+<title>Tela de login</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -31,14 +31,19 @@
 </head>
 <body>
 <div class="container">
-    <h2>Tela De Login</h2>
+    <h2>Tela de Cadastro</h2>
     <form id="loginForm">
         <label for="username">Nome de Usuário:</label>
         <input type="text" id="username" name="username" required>
         <label for="password">Senha:</label>
         <input type="password" id="password" name="password" required>
-        <input type="submit" value="Login">
+        <input type="submit" value="Cadastrar">
     </form>
+    <div id="dadosCadastrados" style="display: none;">
+        <h3>Dados do Último Cadastro:</h3>
+        <p><strong>Nome de Usuário:</strong> <span id="usuarioCadastrado"></span></p>
+        <p><strong>Senha:</strong> <span id="senhaCadastrada"></span></p>
+    </div>
 </div>
 
 <script>
@@ -47,10 +52,35 @@
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
         
-        // Aqui você normalmente faria validações e verificações de autenticação
-        // Por simplicidade, apenas exibiremos o nome de usuário e senha inseridos
-        alert("Nome de Usuário: " + username + "\nSenha: " + password);
+        // Validar a senha
+        if (password.length < 8 || !/[A-Z]/.test(password)) {
+            alert("A senha deve conter no mínimo 8 caracteres e pelo menos uma letra maiúscula.");
+            return;
+        }
+        
+        // Salvar os dados no localStorage
+        localStorage.setItem("username", username);
+        localStorage.setItem("password", password);
+        
+        // Limpar os campos do formulário
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+        
+        // Exibir os dados cadastrados
+        exibirDadosCadastrados();
+        
+        alert("Cadastro realizado com sucesso!");
     });
+    
+    function exibirDadosCadastrados() {
+        var username = localStorage.getItem("username");
+        var password = localStorage.getItem("password");
+        
+        document.getElementById("usuarioCadastrado").textContent = username;
+        document.getElementById("senhaCadastrada").textContent = password;
+        
+        document.getElementById("dadosCadastrados").style.display = "block";
+    }
 </script>
 </body>
 </html>
