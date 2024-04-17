@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tela de Cadastro</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        width: 300px;
+        margin: 0 auto;
+        margin-top: 100px;
+    }
+    input[type="text"], input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        box-sizing: border-box;
+    }
+    input[type="submit"] {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 0;
+        border: none;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Tela de Cadastro</h2>
+    <form id="loginForm">
+        <label for="username">Nome de Usuário:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" required>
+        <input type="submit" value="Cadastrar">
+    </form>
+    <div id="dadosCadastrados" style="display: none;">
+        <h3>Dados do Último Cadastro:</h3>
+        <p><strong>Nome de Usuário:</strong> <span id="usuarioCadastrado"></span></p>
+        <p><strong>Senha:</strong> <span id="senhaCadastrada"></span></p>
+    </div>
+</div>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event){
+        event.preventDefault(); // Prevent default form submission
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        
+        // Validar a senha
+        if (password.length < 8 || !/[A-Z]/.test(password)) {
+            alert("A senha deve conter no mínimo 8 caracteres e pelo menos uma letra maiúscula.");
+            return;
+        }
+        
+        // Salvar os dados no localStorage
+        localStorage.setItem("username", username);
+        localStorage.setItem("password", password);
+        
+        // Limpar os campos do formulário
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+        
+        // Exibir os dados cadastrados
+        exibirDadosCadastrados();
+        
+        alert("Cadastro realizado com sucesso!");
+    });
+    
+    function exibirDadosCadastrados() {
+        var username = localStorage.getItem("username");
+        var password = localStorage.getItem("password");
+        
+        document.getElementById("usuarioCadastrado").textContent = username;
+        document.getElementById("senhaCadastrada").textContent = password;
+        
+        document.getElementById("dadosCadastrados").style.display = "block";
+    }
+</script>
+</body>
+</html>
